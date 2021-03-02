@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="alarm_on" type="id" />
+    <item name="timePicker" type="id" />
+    <item name="action_settings" type="id" />
+</resources>
