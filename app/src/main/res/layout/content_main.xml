@@ -11,4 +11,12 @@
     app:layout_constraintLeft_toRightOf="parent"
     tools:ignore="MissingConstraints" />
 
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/set_alarm"-->
+<!--        app:layout_constraintTop_toBottomOf="parent"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        android:id="@+id/button_alarm"/>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

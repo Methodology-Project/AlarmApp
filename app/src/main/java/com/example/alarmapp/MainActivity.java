@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     AlarmManager alarm_manager;
     TimePicker alarm_timepicker;
     TextView update_text;
+    Context context;
+
     PendingIntent pending_intent; //will allow alarm to work even when app is closed
     MediaPlayer ring;
 
@@ -42,27 +45,46 @@ public class MainActivity extends AppCompatActivity {
 
 
         alarm_manager = (AlarmManager) getSystemService (ALARM_SERVICE);
-        alarm_timepicker = (TimePicker) findViewById (R.id.timePicker);
-
+        alarm_timepicker =  findViewById (R.id.timePicker);
 
         final Calendar calendar = Calendar.getInstance ();
 
-        Button alarm_on = (Button) findViewById(R.id.alarm_on);
+        final Button alarm_on = findViewById(R.id.alarm_on);
 
-        // create an onClick listener to start the alarm
-//this is code that will set the alarm manager to keep track of the time, but we first need to add an Intent here that is set correctly for this method to work
-       /* alarm_on.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)//since the gethour and getminute require a larger API
-            @Override
-            public void onClick(View view) {
-                calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
-                calendar.set (Calendar.MINUTE, alarm_timepicker.getMinute ());
+        final Intent myIntent = new Intent();
 
-                //set the alarm manager, that will let the alarm ring
-    //                alarm_manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis (),ADD INTENT HERE)
+//        alarm_on.setOnClickListener (new View.OnClickListener (){
+//
+//
+//            @TargetApi(Build.VERSION_CODES.M)
+//            @Override
+//            public void onClick(View v) {
+//                int hour = alarm_timepicker.getHour ();
+//                int minute = alarm_timepicker.getMinute ();
+//
+//                calendar.set (Calendar.MINUTE, alarm_timepicker.getMinute ());
+//                calendar.set (Calendar.HOUR_OF_DAY, alarm_timepicker.getHour ());
+//
+//                //if we want to access the time in a string
+//              //  String hour_str = String.valueOf(hour);
+//               // String min_Str = String.valueOf(minute);
+//
+//                //if time is less than 10, string will look like 10:7, not 10:07
+//               //if (minute < 10){
+//                //   min_Str = "0" + String.valueOf (minute);
+//               //}
+//                //will want to tell user that time was set to whatever time, so do that here
+//
+//                myIntent.putExtra("alarm_on_extra", "alarm on");
+//
+//               pending_intent = PendingIntent.getBroadcast (MainActivity.this, 0,
+//                     myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//               alarm_manager.set (AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis (),
+//                       pending_intent);
+//
+//            }
+//        });
 
-            }
-                                        });*/
 
 
         //CODE FOR RESONATING THE ALARM SOUND:
