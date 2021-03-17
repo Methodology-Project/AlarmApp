@@ -45,60 +45,56 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        alarm_manager = (AlarmManager) getSystemService (ALARM_SERVICE);
-        alarm_timepicker =  findViewById(R.id.timePicker);
+        alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarm_timepicker = findViewById(R.id.timePicker);
 
-        debug= findViewById(R.id.debug);
+        debug = findViewById(R.id.debug);
 
-        final Calendar calendar = Calendar.getInstance ();
+        final Calendar calendar = Calendar.getInstance();
 
         final Button alarm_on = findViewById(R.id.alarm_on);
 
         final Intent myIntent = new Intent();
 
-        alarm_on.setOnClickListener (new View.OnClickListener (){
-//
+        alarm_on.setOnClickListener(new View.OnClickListener() {
+            //
 //
             @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                int hour = alarm_timepicker.getHour ();
-                int minute = alarm_timepicker.getMinute ();
-                alarm_on.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        calendar.set (Calendar.MINUTE, alarm_timepicker.getMinute ());
-                        calendar.set (Calendar.HOUR_OF_DAY, alarm_timepicker.getHour ());
+                int hour = alarm_timepicker.getHour();
+                int minute = alarm_timepicker.getMinute();
+                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+                calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
 
-                        Calendar currentTime = Calendar.getInstance();
+                Calendar currentTime = Calendar.getInstance();
 
-                        debug.setText("alarm is set to: "+ hour + ":" + minute); //remove later- for debugging purposes
-                        if(currentTime.get(Calendar.HOUR) == hour && currentTime.get(Calendar.MINUTE) == minute){
-                            ring = MediaPlayer.create(MainActivity.this,R.raw.alarm_ring);
+                debug.setText("alarm is set to: " + hour + ":" + minute); //remove later- for debugging purposes
+                if (currentTime.get(Calendar.HOUR) == hour && currentTime.get(Calendar.MINUTE) == minute) {
+                    ring = MediaPlayer.create(MainActivity.this, R.raw.alarm_ring);
 
-                            ring.start();  //this starts the ringing of the alarm
-                        }
-                    }
-                });
+                    ring.start();  //this starts the ringing of the alarm
+                }
+            }
+        });
 
-//                //if we want to access the time in a string
-                String hour_str = String.valueOf(hour);
+//               //if we want to access the time in a string
+                /*String hour_str = String.valueOf(hour);
                 String min_Str = String.valueOf(minute);
 //
 //                //if time is less than 10, string will look like 10:7, not 10:07
                if (minute < 10){
                    min_Str = "0" + String.valueOf (minute);
-               }
+               } */
 //                //will want to tell user that time was set to whatever time, so do that here
 
-                myIntent.putExtra("alarm_on_extra", "alarm on");
-                pending_intent = PendingIntent.getBroadcast (MainActivity.this, 0,
-                     myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-               alarm_manager.set (AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis (),
-                       pending_intent);
+        myIntent.putExtra("alarm_on_extra", "alarm on");
+        pending_intent = PendingIntent.getBroadcast(MainActivity.this, 0,
+                myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarm_manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                pending_intent);
 //
-            }
-        });
-
+    }
 
 
         //CODE FOR RESONATING THE ALARM SOUND:
@@ -115,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
