@@ -30,9 +30,15 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     AlarmManager alarm_manager;
+    AlarmManager.AlarmClockInfo alarm_info;
     TimePicker alarm_timepicker;
     TextView update_text;
     Context context;
+
+    Calendar calendar;
+    Calendar currentTime;
+    Button alarm_on;
+    Intent myIntent;
 
     EditText debug;
 
@@ -48,60 +54,42 @@ public class MainActivity extends AppCompatActivity {
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarm_timepicker = findViewById(R.id.timePicker);
 
-        debug = findViewById(R.id.debug);
-
-        final Calendar calendar = Calendar.getInstance();
-
-        final Button alarm_on = findViewById(R.id.alarm_on);
-
-        final Intent myIntent = new Intent();
+        calendar = Calendar.getInstance();
+        alarm_on = findViewById(R.id.alarm_on);
+        myIntent = new Intent(this, Receiver.class);
 
         alarm_on.setOnClickListener(new View.OnClickListener() {
-            //
-//
             @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
+
                 int hour = alarm_timepicker.getHour();
                 int minute = alarm_timepicker.getMinute();
                 calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
                 calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
 
-                Calendar currentTime = Calendar.getInstance();
+                myIntent.putExtra("alarm_on_extra", "alarm on");
+                pending_intent = PendingIntent.getBroadcast(MainActivity.this, 0,
+                        myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                myIntent.setAction("alarm on");
+               alarm_info = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), pending_intent);
 
-                debug.setText("alarm is set to: " + hour + ":" + minute); //remove later- for debugging purposes
-                if (currentTime.get(Calendar.HOUR) == hour && currentTime.get(Calendar.MINUTE) == minute) {
-                    ring = MediaPlayer.create(MainActivity.this, R.raw.alarm_ring);
-
-                    ring.start();  //this starts the ringing of the alarm
-                }
+                alarm_manager.setAlarmClock(alarm_info, pending_intent);
+                minute = calendar.get(Calendar.MINUTE);
+                String minString = (minute < 10 ? "0" : "") + minute;
+                Snackbar.make(v, "Alarm set to " + calendar.get(Calendar.HOUR) + ":" + minString, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
-        });
+        });}
 
-//               //if we want to access the time in a string
-                /*String hour_str = String.valueOf(hour);
-                String min_Str = String.valueOf(minute);
-//
-//                //if time is less than 10, string will look like 10:7, not 10:07
-               if (minute < 10){
-                   min_Str = "0" + String.valueOf (minute);
-               } */
-//                //will want to tell user that time was set to whatever time, so do that here
+        public void onHandleIntent(Intent myIntent) {
+            String action = myIntent.getAction();
+            if (action.equals("alarm on")) {
+                ring = MediaPlayer.create(MainActivity.this, R.raw.alarm_ring);
+                ring.start();  //this starts the ringing of the alarm
+            }
+        }
 
-        myIntent.putExtra("alarm_on_extra", "alarm on");
-        pending_intent = PendingIntent.getBroadcast(MainActivity.this, 0,
-                myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarm_manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                pending_intent);
-//
-    }
-
-
-        //CODE FOR RESONATING THE ALARM SOUND:
-        //this is the sound of the alarm clock
-        //ring = MediaPlayer.create(MainActivity.this,R.raw.alarm_ring);
-
-           // ring.start();  //this starts the ringing of the alarm
 
 
         /*FloatingActionButton fab = findViewById(R.id.fab);
