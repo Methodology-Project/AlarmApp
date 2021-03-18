@@ -1,5 +1,6 @@
 package com.example.alarmapp;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -15,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.view.View;
 
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // check if app has permission to send sms
+        //TODO
+
         alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarm_timepicker = findViewById(R.id.timePicker);
 
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 pending_intent = PendingIntent.getBroadcast(MainActivity.this, 0,
                         myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 myIntent.setAction("alarm on");
-               alarm_info = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), pending_intent);
+                alarm_info = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), pending_intent);
 
                 alarm_manager.setAlarmClock(alarm_info, pending_intent);
                 minute = calendar.get(Calendar.MINUTE);

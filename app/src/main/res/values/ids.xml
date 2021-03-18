@@ -3,4 +3,6 @@
     <item name="alarm_on" type="id" />
     <item name="timePicker" type="id" />
     <item name="action_settings" type="id" />
+    <item name="snooze" type="id" />
+    <item name="alarmclockgif" type="id" />
 </resources>
