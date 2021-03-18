@@ -32,15 +32,11 @@ public class MainActivity extends AppCompatActivity {
     AlarmManager alarm_manager;
     AlarmManager.AlarmClockInfo alarm_info;
     TimePicker alarm_timepicker;
-    TextView update_text;
     Context context;
 
     Calendar calendar;
-    Calendar currentTime;
     Button alarm_on;
     Intent myIntent;
-
-    EditText debug;
 
     PendingIntent pending_intent; //will allow alarm to work even when app is closed
     MediaPlayer ring;
@@ -82,16 +78,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });}
 
-      /*  public void onHandleIntent(Intent myIntent) {
-            String action = myIntent.getAction();
-            if (action.equals("alarm on")) {
-                ring = MediaPlayer.create(MainActivity.this, R.raw.alarm_ring);
-                ring.start();  //this starts the ringing of the alarm
-            }
-        }
-      */
-
-
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -106,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
