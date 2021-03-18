@@ -13,6 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Alarm">
+        <activity
+            android:name=".Ring"
+            android:label="@string/title_activity_ring"
+            android:theme="@style/Theme.Alarm.NoActionBar"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="Receiver">
+        <receiver android:name=".Receiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
