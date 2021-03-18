@@ -26,4 +26,15 @@
         android:scaleY="1.5"
         android:text="Snooze" />
 
+    <Button
+        android:id="@id/stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="pressStop"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:text="Stop"
+        android:translationY="30dp" />
+
 </LinearLayout>

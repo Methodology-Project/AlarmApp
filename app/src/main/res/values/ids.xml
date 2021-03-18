@@ -5,4 +5,5 @@
     <item name="action_settings" type="id" />
     <item name="snooze" type="id" />
     <item name="alarmclockgif" type="id" />
+    <item name="stop" type="id" />
 </resources>

@@ -41,7 +41,7 @@ public class RingActivity extends AppCompatActivity {
 
         Intent alarmIntent = new Intent(this, Receiver.class);
         Calendar calendar = Calendar.getInstance();
-        Date nextAlarm = new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5));
+        Date nextAlarm = new Date(System.currentTimeMillis() + 30000);
         calendar.setTime(nextAlarm);
 
         alarmIntent.putExtra("alarm_on_extra", "alarm on");
@@ -63,5 +63,10 @@ public class RingActivity extends AppCompatActivity {
         startActivity(backToMain);
 
 
+    }
+
+    public void pressStop(View view) {
+        Intent backToMain = new Intent(this, MainActivity.class);
+        startActivity(backToMain);
     }
 }
