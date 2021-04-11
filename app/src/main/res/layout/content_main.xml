@@ -13,6 +13,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/timePicker"/>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="5"
+        android:id="@+id/snoozeAmnt"
+        android:layout_gravity="center_horizontal"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
