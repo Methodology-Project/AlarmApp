@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -19,10 +20,12 @@ import java.util.concurrent.TimeUnit;
 
 public class RingActivity extends AppCompatActivity {
 
+    EditText snooze;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ring);
+        snooze=findViewById(R.id.snoozeAmnt);
     }
 
 
@@ -41,7 +44,8 @@ public class RingActivity extends AppCompatActivity {
 
         Intent alarmIntent = new Intent(this, Receiver.class);
         Calendar calendar = Calendar.getInstance();
-        Date nextAlarm = new Date(System.currentTimeMillis() + 30000);
+        //get snooze time entered and snooze based on that amount
+        Date nextAlarm = new Date(System.currentTimeMillis() + (Integer.parseInt(snooze.getText().toString())*6000));
         calendar.setTime(nextAlarm);
 
         alarmIntent.putExtra("alarm_on_extra", "alarm on");
