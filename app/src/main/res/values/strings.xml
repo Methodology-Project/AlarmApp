@@ -19,4 +19,5 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="request_send_sms_message">This app needs to be able to send SMS in order to notify your buddy when you press snooze.</string>
 </resources>

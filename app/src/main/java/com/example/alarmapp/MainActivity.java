@@ -6,6 +6,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,18 +17,27 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+
+import static android.Manifest.permission.SEND_SMS;
+import static androidx.core.content.PermissionChecker.PERMISSION_DENIED;
+import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,28 +69,55 @@ public class MainActivity extends AppCompatActivity {
         alarm_on = findViewById(R.id.alarm_on);
         myIntent = new Intent(this, Receiver.class);
 
-        alarm_on.setOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
+        alarm_on.setOnClickListener((View.OnClickListener) v -> {
+            if (getApplicationContext().checkSelfPermission(SEND_SMS) == PackageManager.PERMISSION_DENIED) {
+                if (shouldShowRequestPermissionRationale(SEND_SMS)) {
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                    View popupView = inflater.inflate(R.layout.popup_window, null);
 
-                int hour = alarm_timepicker.getHour();
-                int minute = alarm_timepicker.getMinute();
-                calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
-                calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
+                    int width = LinearLayout.LayoutParams.MATCH_PARENT;
+                    int height = 1000;
 
-                myIntent.putExtra("alarm_on_extra", "alarm on");
-                pending_intent = PendingIntent.getBroadcast(MainActivity.this, 0,
-                        myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                myIntent.setAction("alarm on");
-                alarm_info = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), pending_intent);
+                    boolean focusable = false;
 
-                alarm_manager.setAlarmClock(alarm_info, pending_intent);
-                minute = calendar.get(Calendar.MINUTE);
-                String minString = (minute < 10 ? "0" : "") + minute;
-                Snackbar.make(v, "Alarm set to " + calendar.get(Calendar.HOUR) + ":" + minString, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+                    popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+
+                    Button allowSMS = (Button) popupView.findViewById(R.id.allowSMS);
+                    Button denySMS = (Button) popupView.findViewById(R.id.denySMS);
+
+                    allowSMS.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[] {SEND_SMS}, 0);
+                            popupWindow.dismiss();
+                        }
+                    });
+
+                    denySMS.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                        }
+                    });
+
+                }
             }
+
+            int hour = alarm_timepicker.getHour();
+            int minute = alarm_timepicker.getMinute();
+            calendar.set(Calendar.MINUTE, alarm_timepicker.getMinute());
+            calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getHour());
+
+            myIntent.putExtra("alarm_on_extra", "alarm on");
+            pending_intent = PendingIntent.getBroadcast(MainActivity.this, 0,
+                    myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            myIntent.setAction("alarm on");
+            alarm_info = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), pending_intent);
+
+            alarm_manager.setAlarmClock(alarm_info, pending_intent);
+            minute = calendar.get(Calendar.MINUTE);
+            String minString = (minute < 10 ? "0" : "") + minute;
+            Snackbar.make(v, "Alarm set to " + calendar.get(Calendar.HOUR) + ":" + minString, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         });}
 
         /*FloatingActionButton fab = findViewById(R.id.fab);

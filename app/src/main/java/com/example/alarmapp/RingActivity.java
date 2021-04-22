@@ -3,12 +3,16 @@ package com.example.alarmapp;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -16,6 +20,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import static android.Manifest.permission.SEND_SMS;
 
 public class RingActivity extends AppCompatActivity {
 
@@ -37,7 +43,10 @@ public class RingActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void pressSnooze(View view) {
-        sendTextMessage("5554", "User pressed the snooze button!", view);
+
+        if (getApplicationContext().checkSelfPermission(SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+            sendTextMessage("5554", "User pressed the snooze button!", view);
+        }
 
         Intent alarmIntent = new Intent(this, Receiver.class);
         Calendar calendar = Calendar.getInstance();
