@@ -9,13 +9,16 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.alarmapp.db.Alarm;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
@@ -27,11 +30,16 @@ import static android.Manifest.permission.SEND_SMS;
 public class RingActivity extends AppCompatActivity {
 
     EditText snooze;
+    MediaPlayer ring;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ring);
+        ring = MediaPlayer.create(getApplicationContext(), R.raw.alarm_ring);
+
+        ring.start();  //this starts the ringing of the alarm
         snooze=findViewById(R.id.snoozeAmnt);
+
     }
 
 
@@ -39,14 +47,14 @@ public class RingActivity extends AppCompatActivity {
 
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, null, null);
-        Snackbar.make(view, "Text message sent!", Snackbar.LENGTH_LONG)
+        Snackbar.make(view, "User snoozed for !" + snooze + "minutes", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void pressSnooze(View view) {
-
+        ring.stop();
         if (getApplicationContext().checkSelfPermission(SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
             sendTextMessage("5554", "User pressed the snooze button!", view);
         }
@@ -71,7 +79,6 @@ public class RingActivity extends AppCompatActivity {
         Snackbar.make(view, "Alarm set to " + calendar.get(Calendar.HOUR) + ":" + minString, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
-
         Intent backToMain = new Intent(this, MainActivity.class);
         startActivity(backToMain);
 
@@ -79,7 +86,9 @@ public class RingActivity extends AppCompatActivity {
     }
 
     public void pressStop(View view) {
+        ring.stop();
         Intent backToMain = new Intent(this, MainActivity.class);
-        startActivity(backToMain);
+       startActivity(backToMain);
+
     }
 }
