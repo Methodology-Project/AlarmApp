@@ -1,35 +1,41 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="@string/your_info_header">
+        <EditTextPreference
+            app:key="username"
+            app:title="@string/username"
+            app:summary="@string/username_summary"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/accountability_partner_header">
+
+        <SwitchPreference
+            app:defaultValue="true"
+            app:key="send_sms"
+            app:title="@string/send_sms"
+            app:summary="@string/send_sms_summary"/>
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+            app:dependency="send_sms"
+            app:key="phone_number"
+            app:title="@string/partner_phone"
+            app:summary="@string/partner_phone_summary" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/alarm_settings_header">
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
+    <ListPreference
+        app:defaultValue="1"
+        app:key="snooze_amount"
+        app:dialogTitle="@string/snooze_amount_minutes"
+        app:entries="@array/snooze_amounts"
+        app:entryValues="@array/snooze_amounts"
+        app:title="@string/snooze_amount_minutes"/>
     </PreferenceCategory>
+
+
+
 
 </PreferenceScreen>

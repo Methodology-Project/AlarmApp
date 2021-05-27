@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="wrap_content"
-android:layout_height="500px"
-android:background="#62def8">
-
-<TextView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:layout_margin="30dp"
-    android:textSize="22sp"
-    android:text="@string/request_send_sms_message"/>
+    android:layout_height="700px"
+    android:background="#62def8">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="30dp"
+        android:text="@string/request_send_sms_message"
+        android:textSize="22sp" />
+
 
     <Button
         android:id="@+id/allowSMS"

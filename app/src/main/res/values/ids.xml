@@ -6,4 +6,5 @@
     <item name="snooze" type="id" />
     <item name="alarmclockgif" type="id" />
     <item name="stop" type="id" />
+    <item name="home" type="id" />
 </resources>
